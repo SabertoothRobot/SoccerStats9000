@@ -118,6 +118,8 @@
 			  var z = document.getElementById("playerNotesText");
 			  if(typeof(playerNotesArray[playerNoteRow]) != "undefined") {
 				  z.value = playerNotesArray[playerNoteRow]; 
+			  } else {
+				  z.value = "";
 			  }
 
 		}
@@ -231,10 +233,10 @@
 		<INPUT type="button" value="Add Player" onclick="addRow('playerTable')" />
 		<table id="playerTable" width="100%">
 		<tr>
-			<th width="40%">Player</th>
-			<th width="20%">Goals</th>
-			<th width="20%">Assists</th>
-			<th width="20%">Notes</th>
+			<th width="40%" align="right">Player</th>
+			<th width="20%" align="right">Goals</th>
+			<th width="20%" align="right">Assists</th>
+			<th width="20%" align="right">Notes</th>
 		</tr>
 		</table>
 		
@@ -242,10 +244,10 @@
 		<INPUT type="button" value="Add Goalie" onclick="addGoalieRow('goalieTable')" />
 		<table id="goalieTable" width="100%">
 		<tr>
-			<th width="40%">Player</th>
-			<th width="20%">Goals Allowed</th>
-			<th width="20%">Shots</th>
-			<th width="20%">CS</th>
+			<th width="40%" align="right">Player</th>
+			<th width="20%" align="right">Goals Allowed</th>
+			<th width="20%" align="right">Shots</th>
+			<th width="20%" align="right">CS</th>
 		</tr>
 		</table>
 		
