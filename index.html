@@ -131,6 +131,8 @@
 
 		}
 		function CreateCSV() {
+			var PlayerHeadings ="\"Player Name\",\"Goals\",\"Assists\",\"Notes\"\n";
+			var GoalieHeadings ="\"Player Name\",\"Goals Allowed\",\"Shots Against\",\"Clean Sheets\"\n";
 			var filedata = "";
 			var betweenTheThings = "\",\"";
 			var pName = document.getElementsByClassName("playerName");
@@ -139,6 +141,7 @@
 			var table = document.getElementById("playerTable");
 			var rowCount = table.rows.length;
 			var i;
+			filedata = PlayerHeadings;
 			for (i = 0; i < table.rows.length - 1; i++) {
 			  var j = i + 1;
 			  var fileLine;
@@ -146,6 +149,8 @@
 			  filedata = filedata + fileLine;
 			}
 
+			filedata = filedata + "\n";
+			filedata = filedata + GoalieHeadings;
 			var gName = document.getElementsByClassName("goalieName");
 			var gGoal = document.getElementsByClassName("goalieGoalsAllowed");
 			var gShots = document.getElementsByClassName("goalieShots");
