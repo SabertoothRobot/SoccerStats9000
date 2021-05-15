@@ -54,6 +54,7 @@
 			var row = table.insertRow(rowCount);
 			var cell0 = row.insertCell(0);
 			var element0 = document.createElement("input");
+			element0.className = "goalieName";
 			element0.type = "text";
 			element0.name = "txtbox[]";
 			cell0.appendChild(element0);
@@ -70,6 +71,7 @@
 			var cell2 = row.insertCell(2);
 			cell2.className = "shots";
 			var element2 = document.createElement("input");
+			element2.className = "goalieShots";
 			element2.type = "text";
 			element2.name = "txtbox[]";
 			element2.size = "3";
@@ -78,6 +80,7 @@
 			var cell3 = row.insertCell(3);
 			cell3.className = "cleanSheet";
 			var element3 = document.createElement("input");
+			element3.className = "goalieCleanSheet";
 			element3.type = "text";
 			element3.name = "txtbox[]";
 			element3.size = "3";
@@ -143,6 +146,19 @@
 			  filedata = filedata + fileLine;
 			}
 
+			var gName = document.getElementsByClassName("goalieName");
+			var gGoal = document.getElementsByClassName("goalieGoalsAllowed");
+			var gShots = document.getElementsByClassName("goalieShots");
+			var gCS = document.getElementsByClassName("goalieCleanSheet");
+			var table = document.getElementById("goalieTable");
+			var rowCount = table.rows.length;
+			var i;
+			for (i = 0; i < table.rows.length - 1; i++) {
+			  var j = i + 1;
+			  var fileLine;
+                          fileLine = "\"" + gName[i].value + betweenTheThings + gGoal[i].value + betweenTheThings + gShots[i].value + betweenTheThings + gCS[i].value +  "\"\\n";
+			  filedata = filedata + fileLine;
+			}
 			download(filedata, 'myfilename.csv', 'text/plain');
 		}
 		// Function to download data to a file
@@ -166,10 +182,22 @@
 	</SCRIPT>
 	<style>
 		h2, h3 {
- 		   font-size: 20px;
+ 		   font-size: 36px;
 		}
 		body {
-		    font: normal 16px Verdana, Arial, sans-serif;
+		    font: normal 26px Verdana, Arial, sans-serif;
+		}
+		input[type="text"]
+		{
+		    font-size:32px;
+		}
+		input[type="button"]
+		{
+		    font-size:32px;
+		}
+		textarea
+		{
+		    font-size:32px;
 		}
 	</style>
 </head>
@@ -213,7 +241,7 @@
 		<br>
 		<INPUT type="button" value="End Game" onclick="endGame()" />
 		<div id="endOfGameDiv">	</div>
-		<p><button onclick="CreateCSV()">Download CSV</button></p>
+		<p><INPUT type="button" value="Download CSV" onclick="CreateCSV()" /></p>
 	</div>
 	<div id="playerNotesDiv" style="display: none;">
 		<textarea id="playerNotesText" rows="10" cols="30" > </textarea>
