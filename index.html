@@ -116,7 +116,7 @@
 			  var y = document.getElementById("playerNotesDiv");
 			  y.style.display = "block";
 			  var z = document.getElementById("playerNotesText");
-			  if(playerNotesArray[playerNoteRow] != "undefined") {
+			  if(typeof(playerNotesArray[playerNoteRow]) != "undefined") {
 				  z.value = playerNotesArray[playerNoteRow]; 
 			  }
 
@@ -142,7 +142,7 @@
 			for (i = 0; i < table.rows.length - 1; i++) {
 			  var j = i + 1;
 			  var fileLine;
-                          fileLine = "\"" + pName[i].value + betweenTheThings + pGoal[i].value + betweenTheThings + pAssist[i].value + betweenTheThings + playerNotesArray[j] + "\"\\n";
+                          fileLine = "\"" + pName[i].value + betweenTheThings + pGoal[i].value + betweenTheThings + pAssist[i].value + betweenTheThings + playerNotesArray[j] + "\"\n";
 			  filedata = filedata + fileLine;
 			}
 
@@ -156,7 +156,7 @@
 			for (i = 0; i < table.rows.length - 1; i++) {
 			  var j = i + 1;
 			  var fileLine;
-                          fileLine = "\"" + gName[i].value + betweenTheThings + gGoal[i].value + betweenTheThings + gShots[i].value + betweenTheThings + gCS[i].value +  "\"\\n";
+                          fileLine = "\"" + gName[i].value + betweenTheThings + gGoal[i].value + betweenTheThings + gShots[i].value + betweenTheThings + gCS[i].value +  "\"\n";
 			  filedata = filedata + fileLine;
 			}
 			download(filedata, 'myfilename.csv', 'text/plain');
