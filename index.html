@@ -134,14 +134,18 @@
 			var PlayerHeadings ="\"Player Name\",\"Goals\",\"Assists\",\"Notes\"\n";
 			var GoalieHeadings ="\"Player Name\",\"Goals Allowed\",\"Shots Against\",\"Clean Sheets\"\n";
 			var filedata = "";
-			var betweenTheThings = "\",\"";
+		        var betweenTheThings = "\",\"";
+			var opponent = document.getElementById("opponentText");
+			var dateText = document.getElementById("dateText");
+			filedata = "\"Opponent\", \"" + opponent + "\"\n";
+			filedata = filedata + "\"Date\",\"" + dateText + "\"\n";
 			var pName = document.getElementsByClassName("playerName");
 			var pGoal = document.getElementsByClassName("playerGoal");
 			var pAssist = document.getElementsByClassName("playerAssist");
 			var table = document.getElementById("playerTable");
 			var rowCount = table.rows.length;
 			var i;
-			filedata = PlayerHeadings;
+			filedata = filedata + PlayerHeadings;
 			for (i = 0; i < table.rows.length - 1; i++) {
 			  var j = i + 1;
 			  var fileLine;
@@ -212,11 +216,11 @@
 		<table id="gameSummaryTable">
 			<tr>
 			<td>Opponent:</td>
-			<td><INPUT type="text" size="20"></td>
+			<td><INPUT type="text" id="opponentText" size="20"></td>
 			</tr>
 			<tr>
 			<td>Date:</td>
-			<td><INPUT type="text" size="10"></td>
+			<td><INPUT type="text" id="dateText" size="10"></td>
 			</tr>
 			<tr>
 			<td>Weather:</td>
