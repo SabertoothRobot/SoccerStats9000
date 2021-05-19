@@ -1,9 +1,13 @@
+<!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Soccer Stat Tracker</title>
 <SCRIPT language="javascript">
 		var playerNotesArray = [];
+		var goalieNotesArray = [];
 		var playerNoteRow;
+		var pOrG;
 
 		function addRow(tableID) {
 
@@ -21,17 +25,23 @@
 			var cell1 = row.insertCell(1);
 			var element1 = document.createElement("input");
 			element1.className = "playerGoal";
-			element1.type = "text";
-			element1.name = "txtbox[]";
+			element1.type = "number";
+			element1.name = "pgNum";
 			element1.size = "3";
+			element1.onchange = function () {  
+  			  endGame();
+			};	
 			cell1.appendChild(element1);
 
 			var cell2 = row.insertCell(2);
 			var element2 = document.createElement("input");
 			element2.className = "playerAssist";
-			element2.type = "text";
-			element2.name = "txtbox[]";
+			element2.type = "number";
+			element2.name = "paNum";
 			element2.size = "3";
+			element2.onchange = function () {  
+  			  endGame();
+			};
 			cell2.appendChild(element2);
 
 			var cell3 = row.insertCell(3);
@@ -40,10 +50,23 @@
 			element3.name = "notes";
 			element3.value = "N";
 			element3.onclick = function () {
-				playerNoteRow = rowCount;
+				playerNoteRow = rowCount - 1;
+				pOrG = "P";
 				showPlayerNote();
 			};
 			cell3.appendChild(element3);
+
+			var cell4 = row.insertCell(4);
+			var element4 = document.createElement("input");
+			element4.className = "CancelDeleteButton";
+			element4.type = "button";
+			element4.name = "deleteButton";
+			element4.value = "X";
+			element4.onclick = function () {
+				playerNoteRow = rowCount - 1;
+				deletePlayerRow(this);
+			};
+			cell4.appendChild(element4);
 
 		}
 		function addGoalieRow(tableID) {
@@ -63,34 +86,78 @@
 			cell1.className = "goals";
 			var element1 = document.createElement("input");
 			element1.className = "goalieGoalsAllowed";
-			element1.type = "text";
-			element1.name = "txtbox[]";
+			element1.type = "number";
+			element1.name = "ggaNum";
 			element1.size = "3";
+			element1.onchange = function () {  
+  			  endGame();
+			};
 			cell1.appendChild(element1);
 
 			var cell2 = row.insertCell(2);
 			cell2.className = "shots";
 			var element2 = document.createElement("input");
 			element2.className = "goalieShots";
-			element2.type = "text";
-			element2.name = "txtbox[]";
+			element2.type = "number";
+			element2.name = "gsNum";
 			element2.size = "3";
+			element1.onchange = function () {  
+  			  endGame();
+			};
 			cell2.appendChild(element2);
 
 			var cell3 = row.insertCell(3);
 			cell3.className = "cleanSheet";
 			var element3 = document.createElement("input");
 			element3.className = "goalieCleanSheet";
-			element3.type = "text";
-			element3.name = "txtbox[]";
+			element3.type = "checkbox";
+			element3.name = "csCheckbox";
 			element3.size = "3";
 			cell3.appendChild(element3);
 
+			var cell4 = row.insertCell(4);
+			var element4 = document.createElement("input");
+			element4.type = "button";
+			element4.name = "notes";
+			element4.value = "N";
+			element4.onclick = function () {
+				playerNoteRow = rowCount - 1;
+				pOrG = "G";
+				showGoalieNote();
+			};
+			cell4.appendChild(element4);
+
+			var cell5 = row.insertCell(5);
+			var element5 = document.createElement("input");
+			element5.className = "CancelDeleteButton";
+			element5.type = "button";
+			element5.name = "deleteButton";
+			element5.value = "X";
+			element5.onclick = function () {
+				playerNoteRow = rowCount - 1;
+				deleteGoalieRow(this);
+			};
+			cell5.appendChild(element5);
+
+		}
+		function deletePlayerRow(oButton) {
+			var table = document.getElementById("playerTable");
+			table.deleteRow(oButton.parentNode.parentNode.rowIndex);
+			delete playerNotesArray[oButton.parentNode.parentNode.rowIndex]; 
+			endGame(); 
+		}
+		function deleteGoalieRow(oButton) {
+			var table = document.getElementById("goalieTable");
+			table.deleteRow(oButton.parentNode.parentNode.rowIndex); 
+			delete goalieNotesArray[oButton.parentNode.parentNode.rowIndex]; 
+			endGame();
 		}
 		function endGame() {
 			var goalsFor = addUpGoalsFor();
 			var goalsAgainst = addUpGoalsAgainst();
-			document.getElementById("endOfGameDiv").innerHTML = "<h2>Game Summary</h2><p>Goals For:" + goalsFor + "</p> <p>Goals Against:" + goalsAgainst + "</p";
+			document.getElementById("endOfGameDiv").innerHTML = "<h2>Game Summary</h2><p>Goals For:" + goalsFor + "</p> <p>Goals Against:" + goalsAgainst + 
+
+"</p";
 		}
 		function addUpGoalsFor() {
 			var totalGoals = 0;
@@ -123,13 +190,39 @@
 			  }
 
 		}
+		function showGoalieNote() {
+			  var x = document.getElementById("mainDiv");
+			  x.style.display = "none";
+			  var y = document.getElementById("playerNotesDiv");
+			  y.style.display = "block";
+			  var z = document.getElementById("playerNotesText");
+			  if(typeof(goalieNotesArray[playerNoteRow]) != "undefined") {
+				  z.value = goalieNotesArray[playerNoteRow]; 
+			  } else {
+				  z.value = "";
+			  }
+
+		}
 		function savePlayerNote() {
 			  var x = document.getElementById("playerNotesDiv");
 			  x.style.display = "none";
 			  var y = document.getElementById("mainDiv");
 			  y.style.display = "block";
 			  var z = document.getElementById("playerNotesText");
-			  playerNotesArray[playerNoteRow] = z.value;
+			  if (pOrG != "G") {
+				playerNotesArray[playerNoteRow] = z.value;
+			  } else {
+				goalieNotesArray[playerNoteRow] = z.value;
+			  }
+
+		}
+		function saveCancelNote() {
+			  var x = document.getElementById("playerNotesDiv");
+			  x.style.display = "none";
+			  var y = document.getElementById("mainDiv");
+			  y.style.display = "block";
+			  var z = document.getElementById("playerNotesText");
+			  z.value.value;
 
 		}
 		function CreateCSV() {
@@ -149,9 +242,10 @@
 			var i;
 			filedata = filedata + PlayerHeadings;
 			for (i = 0; i < table.rows.length - 1; i++) {
-			  var j = i + 1;
 			  var fileLine;
-                          fileLine = "\"" + pName[i].value + betweenTheThings + pGoal[i].value + betweenTheThings + pAssist[i].value + betweenTheThings + playerNotesArray[j] + "\"\n";
+                          fileLine = "\"" + pName[i].value + betweenTheThings + pGoal[i].value + betweenTheThings + pAssist[i].value + betweenTheThings + 
+
+playerNotesArray[i] + "\"\n";
 			  filedata = filedata + fileLine;
 			}
 
@@ -165,12 +259,14 @@
 			var rowCount = table.rows.length;
 			var i;
 			for (i = 0; i < table.rows.length - 1; i++) {
-			  var j = i + 1;
 			  var fileLine;
-                          fileLine = "\"" + gName[i].value + betweenTheThings + gGoal[i].value + betweenTheThings + gShots[i].value + betweenTheThings + gCS[i].value +  "\"\n";
+                          fileLine = "\"" + gName[i].value + betweenTheThings + gGoal[i].value + betweenTheThings + gShots[i].value + betweenTheThings + gCS[i].value + 
+
+ "\"\n";
 			  filedata = filedata + fileLine;
 			}
-			download(filedata, 'myfilename.csv', 'text/plain');
+			var filename = opponent.value + ".csv"
+			download(filedata, filename, 'text/plain');
 		}
 		// Function to download data to a file
 		function download(filedata, filename, type) {
@@ -192,24 +288,23 @@
 		}
 	</SCRIPT>
 	<style>
-		h2, h3 {
- 		   font-size: 36px;
-		}
-		body {
-		    font: normal 26px Verdana, Arial, sans-serif;
-		}
-		input[type="text"]
-		{
-		    font-size:32px;
-		}
-		input[type="button"]
-		{
-		    font-size:32px;
-		}
-		textarea
-		{
-		    font-size:32px;
-		}
+html *
+{
+   font-size: 1rem ;
+}
+h2 {
+  font-size: 1.25rem ;
+}
+table { 
+    border-spacing: 10px;
+    border-collapse: separate;
+}
+  .CancelDeleteButton {
+background-color: white;
+color: red;
+  border: none;
+}
+
 	</style>
 </head>
 <body>
@@ -225,34 +320,36 @@
 			<td><INPUT type="text" id="dateText" size="10"></td>
 			</tr>
 			<tr>
-			<td>Weather:</td>
+			<td>Field Conditions:</td>
 			<td><INPUT type="text" size="20"></td>
 			</tr>
 		</table>
 		<h2>Players</h2>
 		<INPUT type="button" value="Add Player" onclick="addRow('playerTable')" />
-		<table id="playerTable" width="100%">
+		<table id="playerTable">
 		<tr>
-			<th width="40%" align="left">Player</th>
-			<th width="20%" align="left">Goals</th>
-			<th width="20%" align="left">Assists</th>
-			<th width="20%" align="left">Notes</th>
+			<th align="left">Player</th>
+			<th align="left">Goals</th>
+			<th align="left">Assists</th>
+			<th align="left">Notes</th>
+			<th align="left"></th>
 		</tr>
 		</table>
 		
 		<h2>Goalies</h2>
 		<INPUT type="button" value="Add Goalie" onclick="addGoalieRow('goalieTable')" />
-		<table id="goalieTable" width="100%">
+		<table id="goalieTable">
 		<tr>
-			<th width="40%" align="left">Player</th>
-			<th width="20%" align="left">Goals Allowed</th>
-			<th width="20%" align="left">Shots</th>
-			<th width="20%" align="left">CS</th>
+			<th align="left">Player</th>
+			<th align="left">Goals Allowed</th>
+			<th align="left">Shots</th>
+			<th align="left">CS</th>
+			<th align="left">Notes</th>
+			<th align="left"></th>
 		</tr>
 		</table>
 		
 		<br>
-		<INPUT type="button" value="End Game" onclick="endGame()" />
 		<div id="endOfGameDiv">	</div>
 		<p><INPUT type="button" value="Download CSV" onclick="CreateCSV()" /></p>
 	</div>
@@ -260,6 +357,7 @@
 		<textarea id="playerNotesText" rows="10" cols="30" > </textarea>
 		<br>
 		<INPUT type="button" value="Save" onclick="savePlayerNote()" />
+		<INPUT type="button" value="Cancel" class="CancelDeleteButton" onclick="saveCancelNote()" />
 	</div>
 
 	
