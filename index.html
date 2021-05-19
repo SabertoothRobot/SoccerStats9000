@@ -27,7 +27,8 @@
 			element1.className = "playerGoal";
 			element1.type = "number";
 			element1.name = "pgNum";
-			element1.size = "3";
+			element1.min = "0";
+			element1.max = "99";
 			element1.onchange = function () {  
   			  endGame();
 			};	
@@ -38,7 +39,8 @@
 			element2.className = "playerAssist";
 			element2.type = "number";
 			element2.name = "paNum";
-			element2.size = "3";
+			element2.min = "0";
+			element2.max = "99";
 			element2.onchange = function () {  
   			  endGame();
 			};
@@ -88,7 +90,8 @@
 			element1.className = "goalieGoalsAllowed";
 			element1.type = "number";
 			element1.name = "ggaNum";
-			element1.size = "3";
+			element1.min = "0";
+			element1.max = "99";
 			element1.onchange = function () {  
   			  endGame();
 			};
@@ -100,8 +103,9 @@
 			element2.className = "goalieShots";
 			element2.type = "number";
 			element2.name = "gsNum";
-			element2.size = "3";
-			element1.onchange = function () {  
+			element2.min = "0";
+			element2.max = "99";
+			element2.onchange = function () {  
   			  endGame();
 			};
 			cell2.appendChild(element2);
@@ -262,7 +266,7 @@ playerNotesArray[i] + "\"\n";
 			  var fileLine;
                           fileLine = "\"" + gName[i].value + betweenTheThings + gGoal[i].value + betweenTheThings + gShots[i].value + betweenTheThings + gCS[i].value + 
 
- "\"\n";
+goalieNotesArray[i] + "\"\n";
 			  filedata = filedata + fileLine;
 			}
 			var filename = opponent.value + ".csv"
